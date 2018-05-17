@@ -1,0 +1,105 @@
+
+<!doctype html>
+<html lang="en">
+{% load static %}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Start using Instanext</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{% static "landing/css/signin.css" %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static "landing/js/amazon-cognito-identity.min.js" %}">
+
+</script>
+  </head>
+
+  <body class="text-center">
+    <form class="form-signin">
+      <img class="mb-4" src="{% static "landing/images/logo-colored.png" %}" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+      <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+      <!-- <label for="inputPassword" class="sr-only">Password</label> -->
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+      <!-- <label for="inputPassword" class="sr-only">Password</label> -->
+      <!-- <input type="password" id="inputPassword2" class="form-control" placeholder="Repeat Password" required> -->
+      <!-- <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div> -->
+      <button id="registerbtn" class="btn btn-lg btn-primary btn-block btn-success">Register</button>
+      <!-- <button class="btn btn-lg btn-primary btn-block btn-success" type="button">Register</button> -->
+      <p class="mt-5 mb-3 text-muted">&copy; Shashwat Jain 2017-2018</p>
+    </form>
+    <script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+// (function() {
+//   'use strict';
+//   window.addEventListener('load', function() {
+//     // Fetch all the forms we want to apply custom Bootstrap validation styles to
+//     var forms = document.getElementsByClassName('form-signin');
+//     // Loop over them and prevent submission
+//     var validation = Array.prototype.filter.call(forms, function(form) {
+//       form.addEventListener('submit', function(event) {
+//         if (form.checkValidity() === false) {
+//           event.preventDefault();
+//           event.stopPropagation();
+//         }
+//         form.classList.add('was-validated');
+//       }, false);
+//     });
+//   }, false);
+// })();
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#registerbtn").click(function(){
+      var email = $("#inputEmail").val();
+      var Username = $("#inputUsername").val();
+      var password = $('#inputPassword').val();
+      var poolData = {
+              UserPoolId : 'us-east-1_TA93wiS3W', // Your user pool id here
+              ClientId : '6hn1hdns5p16dte8se0pelno2b' // Your client id here
+          };
+          var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+          var attributeList = [];
+
+          var dataEmail = {
+              Name : 'email',
+              Value : email
+          };
+
+          var dataPhoneNumber = {
+              Name : 'phone_number',
+              Value : '+15555555555'
+          };
+          var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail);
+          var attributePhoneNumber = new AmazonCognitoIdentity.CognitoUserAttribute(dataPhoneNumber);
+
+          attributeList.push(attributeEmail);
+          attributeList.push(attributePhoneNumber);
+
+          userPool.signUp(Username, password, attributeList, null, function(err, result){
+              if (err) {
+                  alert(err.message || JSON.stringify(err));
+                  return;
+              }
+              cognitoUser = result.user;
+              console.log('user name is ' + cognitoUser.getUsername());
+          });
+    });
+});
+</script>
+  </body>
+</html>

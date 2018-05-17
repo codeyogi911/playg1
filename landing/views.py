@@ -14,4 +14,8 @@ class landingview(TemplateView):
 class signinview(TemplateView):
     def get(self,request, **kwargs):
         # pdb.set_trace()
-        return render(request, 'signin.html', context=None)
+        return render(request, 'signinaws.html', context=None)
+class registration(TemplateView):
+    def get(self,request, **kwargs):
+        # pdb.set_trace()
+        return render(request, 'Register.html', context=None)

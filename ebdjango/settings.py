@@ -20,7 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'CHANGE_ME'
+# SECRET_KEY = 'CHANGE_ME'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '@s@gsb6g5&s)4@o&^=a7-v-a8u@c46eb!g(-2a%lplu%z3-4wk')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', False) )
@@ -84,8 +85,12 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-
+# AUTHENTICATION_BACKENDS = [
+#     'django_warrant.backend.CognitoBackend',
+#     # 'django.contrib.auth.backends.ModelBackend',
+# ]
+# COGNITO_USER_POOL_ID = 'us-east-1_TA93wiS3W'
+# COGNITO_APP_ID = 'og5a8625605u2njipvlhq3mlt'
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -164,3 +169,14 @@ STATICFILES_STORAGE = 'custom_storages.StaticStorage'
 
 MEDIAFILES_LOCATION = 'media'
 DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+
+# SESSION_COOKIE_SECURE = False
+# CSRF_COOKIE_SECURE =  False
+# SECURE_SSL_REDIRECT = False
+import socket
+# if socket.gethostname()=="Shashwat’s MacBook Pro":
+islocalhost = socket.gethostname()=="Shashwats-MacBook-Pro.local"
+# import pdb; pdb.set_trace()
+SECURE_SSL_REDIRECT = not islocalhost
+SESSION_COOKIE_SECURE = SECURE_SSL_REDIRECT
+CSRF_COOKIE_SECURE =  SECURE_SSL_REDIRECT

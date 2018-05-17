@@ -5,5 +5,6 @@ from landing import views
 
 urlpatterns = [
     url(r'^$', views.signinview.as_view(),name='signin'),
+    url(r'^register', views.registration.as_view(),name='signin'),
     url(r'^landing', views.landingview.as_view(),name='landing'),
 ]
